@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+p {
+	font-size: 24px;
+    }
+
+button {
+	font-size: 18px;
+    }
+
+
+</style>
+</head>
+<body>
+
+<h2>Vocabulary Test</h2>
+
+<p></p>
+<p></p>
+
+<p id="testarea"></p>
+<p id="ansarea"></p>
+
+<button onclick="showanswer()">show answer</button>
+<p></p>
+<button onclick="correct()">correct</button>
+<button onclick="wrong()">wrong</button>
+
+<p id="scorearea"></p>
+
+
+
+<script src="vocab-data.js"></script>
+
+<script>
+
+
+var numword, chosen, testword, pos, ans, score, i;
+numword=vocab.length;
+score=0;
+chooseword();
+
+function chooseword(){
+chosen=Math.floor(Math.random() * numword);
+testword=vocab[chosen];
+pos = testword.indexOf("/");
+ans = testword.slice(pos+1);
+testword=testword.slice(0,pos);
+document.getElementById("testarea").innerHTML = testword;
+document.getElementById("ansarea").innerHTML = "";
+}
+
+function showanswer() {
+document.getElementById("ansarea").innerHTML = ans;
+}
+
+function correct(){
+score=score+1;
+document.getElementById("scorearea").innerHTML = score;
+vocab.splice(chosen,1);
+chooseword();
+}
+
+function wrong(){
+score=score-1;
+document.getElementById("scorearea").innerHTML = score;
+chooseword();
+}
+
+
+
+
+</script>
+
+</body>
+</html>
+
+
