@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html>
+<body onload="addselectlist()">
+
+<h2>Vote</h2>
+<p></p>
+<p></p>
+
+
+<select id="optionlist" onchange="choice(this)">
+</select>
+
+<select id="resolutionlist" onchange="resolchoice(this)">
+</select>
+
+<p id="votearea"></p>
+
+
+
+
+<script src="voteall.js"></script>
+
+<script>
+
+function addselectlist(){
+
+// add legislators'name in option list
+var additem;
+var legislatorNames = Object.keys(voterecall[0]).slice(5);
+for (additem in legislatorNames){
+//	console.log(legislatorNames[additem]);
+	var selectitem = document.getElementById("optionlist");
+	var txtNode=document.createTextNode(legislatorNames[additem]);
+	var opt=document.createElement("option");
+	opt.appendChild(txtNode);
+	selectitem.appendChild(opt);
+	}
+
+
+
+// add resolution item  in option list
+
+for (additem in voterecall){
+
+	var resolutionnames=voterecall[additem].resol
+	var selectitem = document.getElementById("resolutionlist");
+	var txtNode=document.createTextNode(resolutionnames);
+	var opt=document.createElement("option");
+	opt.appendChild(txtNode);
+	selectitem.appendChild(opt);
+	}
+
+}
+
+
+
+
+function choice(seltag){
+	var i, x, q, c, yes, no, abstain, absent, present, votecolor;
+	var yescolor="#85e085";
+	var nocolor="#ff4d88";
+	var othercolor="#e6e6e6";
+	
+	x="";
+	c = seltag.options[seltag.selectedIndex].text;
+
+	yes=no=abstain=absent=present=0;
+
+	for (i in voterecall){
+
+		switch(voterecall[i][c]){
+			case "Yes":
+				yes=yes+1;
+				break;
+			case "No":
+				no=no+1;
+				break;
+			case "Abstain":
+				abstain=abstain+1;
+				break;
+			case "Absent":
+				absent=absent+1;
+				break;
+			case "Present":
+				present=present+1;
+
+		}
+	}
+	
+
+	x="<table cellpadding=\"10\">";
+
+	for (i in voterecall) {
+    	x += "<tr><td>"+voterecall[i]["Date"]+"<td>"+voterecall[i]["resol"];
+
+    	switch(voterecall[i][c]){
+			case "Yes":
+				votecolor=yescolor;
+				break;
+			case "No":
+				votecolor=nocolor;
+				break;
+			case "Abstain":
+				votecolor=othercolor;
+				break;
+			case "Absent":
+				votecolor=othercolor;
+				break;
+			case "Present":
+				votecolor=othercolor;
+
+		}
+		x+="<td bgcolor=\""+votecolor+"\">"+voterecall[i][c];
+	}
+
+	x+="</table>";
+
+	document.getElementById("votearea").innerHTML = c+" /Yes ("+yes+")  No ("+no+") Abstain ("+abstain+")  Absent ("+absent+")  Present ("+present+	")<br/>"+x;
+	}
+
+
+
+
+function resolchoice(seltag){
+	var i, x, q, c, output, yes, no, other;
+	c = seltag.options[seltag.selectedIndex].text;
+//console.log(c);
+	function findresol(voterecall){return voterecall.resol===c;}
+	q = voterecall.find(findresol);
+
+/*
+	delete q.Date;
+	delete q.resolnum;
+	delete q.resol;
+	delete q.memgovt;
+	delete q.proposer;
+
+*/
+
+//console.log(q);
+//console.log(typeof(Object.keys(q)[0]));
+
+	
+	x="";
+	yes=0;
+	for (i in q){ 
+//console.log(i);
+		if (q[i]==="Yes") {
+		x+="<tr><td>"+i;
+		yes=yes+1;
+		}
+	}
+	
+	x+="</table>";
+	output = c+"<br/><br/>"+"<table style=\"float: left;width:30%\"><tr><td>Yes/ "+yes+x;
+
+	x="";
+	no=0;
+	for (i in q){ 
+	if (q[i]==="No") {
+		x+="<tr><td>"+i;
+		no=no+1;
+		}
+	}
+	x+="</table>";
+
+	output=output+"<table style=\"float: left;width:30%\"><tr><td>No/ "+no+x;
+
+
+
+	x="";
+	other=0;
+	for (i in q){ 
+	if (q[i]==="Abstain" || q[i]==="Absent" || q[i]==="Present") {
+		x+="<tr><td>"+i;
+		other=other+1;
+		}
+	}
+	x+="</table>";
+
+	output=output+"<table style=\"float: left;width:30%\"><tr><td>Abstain or Absent or Present/ "+other+x;
+
+	document.getElementById("votearea").innerHTML = output;
+
+
+}
+
+
+
+</script>
+
+</body>
+</html>
+
+
