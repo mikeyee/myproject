@@ -25,11 +25,14 @@ button {
 <body>
 
 <p>原文: </p>
-<p><textarea id="originalText">testing text: 一,二,三.也許?.!!;  “也許不易”</textarea></p>
+<p><textarea id="originalText">testing text: 一,二, 三.也許?.!!;  “也許不易”
+    ("生意艱難","七喜很淡")</textarea></p>
 
-<p>按「轉換」鍵將半型符號轉為全型符號，即,變， .變。 !變！ :變： ?變？ ;變；</p>
+<p>按「轉換」鍵將半型符號轉為全型符號，即,變， .變。 !變！ :變： ?變？ ;變； ％變% (變（ )變）</p>
 
-<button onclick="myFunction()">轉換</button>
+<button onclick="myFunction()">全文轉換</button>
+<button onclick="removeSpaceSelectedText()">刪半型空格（先選擇文字段落）</button>
+<button onclick="convertQuotationSelectedText()">轉換半型雙引號（先選擇文字段落）</button>
 <p></p>
 
 <textarea id="convertedText"></textarea>
@@ -46,9 +49,37 @@ function myFunction() {
 	x = x.replace(/\?/g, "？");
 	x = x.replace(/\“/g, "「");	
     x = x.replace(/\”/g, "」");
+    x = x.replace(/％/g, "%");
+    x = x.replace(/\(/g, "（");
+    x = x.replace(/\)/g, "）");
 
     document.getElementById("convertedText").innerHTML = x;
 }
+
+function removeSpaceSelectedText(){
+        var textArea = document.getElementById("convertedText");
+        var text =textArea.value;
+        var indexStart=textArea.selectionStart;
+        var indexEnd=textArea.selectionEnd;
+        var x = text.substring(indexStart, indexEnd);
+        x = x.replace(/ /g, "");
+        var changetext = text.substring(0,indexStart)+x+text.substring(indexEnd);
+        document.getElementById("convertedText").innerHTML = changetext;     
+    }
+
+function convertQuotationSelectedText(){
+        var textArea = document.getElementById("convertedText");
+        var text =textArea.value;
+        var indexStart=textArea.selectionStart;
+        var indexEnd=textArea.selectionEnd;
+        var x = text.substring(indexStart, indexEnd);
+        x = x.replace(/(?=(?:[^"]*"[^"]*")*[^"]*$)(")(.*?,|)(?=.*?(?:,|$))/g,"「$2");
+        x = x.replace(/\"/g, "」");
+        var changetext = text.substring(0,indexStart)+x+text.substring(indexEnd);
+        document.getElementById("convertedText").innerHTML = changetext;     
+    }
+    
+
 </script>
 
 </body>
