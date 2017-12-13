@@ -41,17 +41,18 @@ button {
 function myFunction() {
     var x = document.getElementById("originalText").value;
     x = x.replace(/,/g, "，");
-//	x = x.split(".").join("。");
-	x = x.replace(/\./g, "。");
     x = x.replace(/;/g, "；");
     x = x.replace(/!/g, "！");
     x = x.replace(/:/g, "：");
-	x = x.replace(/\?/g, "？");
-	x = x.replace(/\“/g, "「");	
+    x = x.replace(/\?/g, "？");
+    x = x.replace(/\“/g, "「");	
     x = x.replace(/\”/g, "」");
     x = x.replace(/％/g, "%");
     x = x.replace(/\(/g, "（");
     x = x.replace(/\)/g, "）");
+    x = x.replace(/\./g, "。");
+
+    x = x.replace(/(\d)。(\d)/g, "$1.$2");
 
     document.getElementById("convertedText").innerHTML = x;
 }
