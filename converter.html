@@ -40,10 +40,21 @@ button {
 <script>
 function myFunction() {
     var x = document.getElementById("originalText").value;
+    var temp1,temp2;
+ /*   var fullsymbol = ["，","；","！","：","「","」","%","\."];
+    var halfsymbol = [",",";","!",":","“","”","%","。"];
+    
+    var i=0;
+
+    for (i=0;i<fullsymbol.length;i++){
+        temp1=new RegExp(halfsymbol[i],"g");
+        temp2=fullsymbol[i];
+        // alert(temp1);
+        x=x.replace(temp1,temp2);
+    }
+*/
     x = x.replace(/,/g, "，");
-//	x = x.split(".").join("。");
-	x = x.replace(/\./g, "。");
-    x = x.replace(/;/g, "；");
+	x = x.replace(/;/g, "；");
     x = x.replace(/!/g, "！");
     x = x.replace(/:/g, "：");
 	x = x.replace(/\?/g, "？");
@@ -52,6 +63,24 @@ function myFunction() {
     x = x.replace(/％/g, "%");
     x = x.replace(/\(/g, "（");
     x = x.replace(/\)/g, "）");
+    x = x.replace(/＄/g, "$");
+    x = x.replace(/＃/g, "#");
+    x = x.replace(/＠/g, "@");
+    x = x.replace(/０/g,"0");
+    x = x.replace(/１/g,"1");
+    x = x.replace(/２/g,"2");
+    x = x.replace(/３/g,"3");
+    x = x.replace(/４/g,"4");
+    x = x.replace(/５/g,"5");
+    x = x.replace(/６/g,"6");
+    x = x.replace(/７/g,"7");
+    x = x.replace(/８/g,"8");
+    x = x.replace(/９/g,"9");
+    x = x.replace(/\./g, "。");
+// if 。 is between two digits, change that back to .
+    x = x.replace(/(\d)。(\d)/g, "$1.$2");
+// if ， is between two digits, change that back to ,    
+    x = x.replace(/(\d)，(\d)/g, "$1,$2");
 
     document.getElementById("convertedText").innerHTML = x;
 }
