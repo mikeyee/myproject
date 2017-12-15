@@ -35,12 +35,11 @@ button {
 <button onclick="convertQuotationSelectedText()">轉換半型雙引號（先選擇文字段落）</button>
 <p></p>
 
-<textarea id="convertedText"></textarea>
+<textarea id="convertedText">目標文本</textarea>
 
 <script>
 function myFunction() {
     var x = document.getElementById("originalText").value;
-    var temp1,temp2;
  /*   var fullsymbol = ["，","；","！","：","「","」","%","\."];
     var halfsymbol = [",",";","!",":","“","”","%","。"];
     
@@ -81,18 +80,24 @@ function myFunction() {
     x = x.replace(/(\d)。(\d)/g, "$1.$2");
 // if ， is between two digits, change that back to ,    
     x = x.replace(/(\d)，(\d)/g, "$1,$2");
-    document.getElementById("convertedText").innerHTML = x;
+    document.getElementById("convertedText").value = x;
 }
 
 function removeSpaceSelectedText(){
+
         var textArea = document.getElementById("convertedText");
         var text =textArea.value;
         var indexStart=textArea.selectionStart;
         var indexEnd=textArea.selectionEnd;
         var x = text.substring(indexStart, indexEnd);
         x = x.replace(/ /g, "");
+        
         var changetext = text.substring(0,indexStart)+x+text.substring(indexEnd);
-        document.getElementById("convertedText").innerHTML = changetext;     
+
+        // can't use innerHtml here as text fails to refresh
+        
+        document.getElementById("convertedText").value = changetext;     
+        
     }
 
 function convertQuotationSelectedText(){
@@ -104,7 +109,12 @@ function convertQuotationSelectedText(){
         x = x.replace(/(?=(?:[^"]*"[^"]*")*[^"]*$)(")(.*?,|)(?=.*?(?:,|$))/g,"「$2");
         x = x.replace(/\"/g, "」");
         var changetext = text.substring(0,indexStart)+x+text.substring(indexEnd);
-        document.getElementById("convertedText").innerHTML = changetext;     
+        
+        // can't use innerHtml here as text fails to refresh
+        
+        document.getElementById("convertedText").value = changetext;
+        
+
     }
     
 
