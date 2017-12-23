@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+p {
+	font-size: 24px;
+    }
+
+button {
+	font-size: 18px;
+    }
+
+
+</style>
+</head>
+<body>
+
+<h2>Vocabulary Test</h2>
+
+<p></p>
+<p></p>
+
+<p id="testarea"></p>
+
+
+<button id="1" onclick="checkanswer(this.id)"> 1 </button>
+<button id="2" onclick="checkanswer(this.id)"> 2 </button>
+<button id="3" onclick="checkanswer(this.id)"> 3 </button>
+<button id="4" onclick="checkanswer(this.id)"> 4 </button>
+<button onclick="chooseword()"> Next </button>
+
+<p id="ansarea"></p>
+<p id="scorearea"></p>
+
+
+
+<script src="vocab-data.js"></script>
+
+<script>
+
+
+var numword, chosen, testword, pos, ans, score, i, j, flag, mc;
+numword=vocab.length;
+score=0;
+mc=[];
+testword=[];
+pos=[];
+ans=[];
+chooseword();
+
+function chooseword(){
+
+flag=false;
+document.getElementById("ansarea").innerHTML = "<br/>";
+for (i = 0; i < 4; i++) {
+	mc[i]=Math.floor(Math.random() * numword);
+	// to prevent repeat word choice
+	do {
+	for (var j=0; j < i; j++) {
+		flag=false;
+		if (mc[i] == mc[j]) {flag=true;mc[i]=Math.floor(Math.random() * numword);break;}
+		}
+	}
+	while (flag==true);
+
+	testword[i]=vocab[mc[i]];
+	pos[i] = testword[i].indexOf("/");
+	ans[i] = testword[i].slice(pos[i]+1);
+	testword[i]=testword[i].slice(0,pos[i]);
+}
+
+chosen=Math.floor(Math.random() * 4);
+/*chosen=Math.floor(Math.random() * numword);
+testword=vocab[chosen];
+pos = testword.indexOf("/");
+ans = testword.slice(pos+1);
+testword=testword.slice(0,pos);
+*/
+
+document.getElementById("testarea").innerHTML = testword[chosen]+"<p>1: "+ans[0]+"<p>2: "+ans[1]+"<p>3: "+ans[2]+"<p>4: "+ans[3];
+//document.getElementById("ansarea").innerHTML = "";
+}
+
+
+function checkanswer(clicked_id){
+
+	if (clicked_id==chosen+1) {
+		score=score+1;
+		document.getElementById("ansarea").innerHTML = "correct";
+		document.getElementById("scorearea").innerHTML = "score : "+score;
+		vocab.splice(mc[chosen],1);
+		
+	}
+	else {
+		score=score-1;
+		document.getElementById("ansarea").innerHTML = "wrong! the answer is "+(chosen+1).toString();
+		document.getElementById("scorearea").innerHTML = "score : "+score;
+		
+	}
+
+}
+
+/*
+function showanswer() {
+document.getElementById("ansarea").innerHTML = ans[chosen];
+}
+
+function correct(){
+score=score+1;
+document.getElementById("scorearea").innerHTML = score;
+vocab.splice(mc[chosen],1);
+chooseword();
+}
+
+function wrong(){
+score=score-1;
+document.getElementById("scorearea").innerHTML = score;
+chooseword();
+}
+
+*/
+
+
+</script>
+
+</body>
+</html>
+
+
